@@ -20,5 +20,7 @@ RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
 # Expor porta HTTPS
 EXPOSE 443
 
+# USER nginx
+
 # Comando de execução (PID 1 correto)
 CMD ["nginx", "-g", "daemon off;"]
