@@ -14,12 +14,12 @@ services:
     container_name: mariadb
     build:
       context: ./requirements/mariadb
-    environment:
-      - .env
     volumes:
       - db_data:/var/lib/mysql
     networks:
       - inception
+    env_file:
+      - .env
     restart: always
 networks:
   inception:
