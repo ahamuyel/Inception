@@ -1,4 +1,4 @@
-# Base: Debian ou Alpine
+# Base: Debian
 FROM php:8.2-fpm
 
 # Instalar extensões necessárias para WordPress + MariaDB
@@ -7,7 +7,7 @@ RUN apt-get update && apt-get install -y \
     libzip-dev \
     unzip \
     curl \
-    && docker-php-ext-install pdo_mysql zip
+    && docker-php-ext-install mysqli pdo_mysql zip
 
 # Criar diretório do WordPress
 RUN mkdir -p /var/www/html
