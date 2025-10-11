@@ -1,6 +1,7 @@
 FROM debian:12
 
-RUN apt update && apt upgrade && apt install -y mariadb-server
+RUN apt update && apt upgrade && apt install -y mariadb-server \
+    && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir -p /var/lib/mysql /run/mysqld && \
     chown -R mysql:mysql /var/lib/mysql /run/mysqld

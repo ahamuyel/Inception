@@ -1,17 +1,14 @@
 FROM debian:12
 
-RUN apt update && apt install -y nginx openssl netcat-traditional \
+RUN apt update && apt upgrade && apt install -y nginx openssl netcat-traditional\
     && rm -rf /var/lib/apt/lists/*
 
-# Criar diretórios
 RUN mkdir -p /etc/nginx/ssl /var/www/html
 
-# Copiar configs e entrypoint
 COPY conf/default.conf /etc/nginx/conf.d/default.conf
 COPY tools/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
-# Gerar certificado SSL autoassinado
 RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
     -keyout /etc/nginx/ssl/nginx.key \
     -out /etc/nginx/ssl/nginx.crt \
@@ -19,4 +16,4 @@ RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
 
 EXPOSE 443
 
-CMD ["/entrypoint.sh"]
+CMD [ "/entrypoint.sh" ]
