@@ -1,5 +1,3 @@
-# version: "3.9"
-
 services:
   mariadb:
     container_name: mariadb
@@ -48,6 +46,18 @@ networks:
 
 volumes:
   db_data:
+    name: db_data
     driver: local
+    driver_opts:
+      type: none
+      device: /home/ahamuyel/data/db
+      o: bind
+
   wp_data:
+    name: wp_data
     driver: local
+    driver_opts:
+      type: none
+      device: /home/ahamuyel/data/wp
+      o: bind
+      
