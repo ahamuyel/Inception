@@ -1,27 +1,17 @@
-NAME = inceptoin
-
+DOCKER= cd srcs && docker compose
 
 all: up
 
 up:
-	@echo "\033[1;32m[+] Subindo containers...\033[0m"
-	cd srcs && docker compose -p $(NAME) up -d --build
-
-down:
-	@echo "\033[1;31m[-] Parando containers...\033[0m"
-	cd srcs && docker compose -p $(NAME) down
-
-clean: down
-	@echo "\033[1;33m[!] Removendo volumes e imagens órfãs...\033[0m"
-	docker system prune -af --volumes
-
-ps:
-	cd srcs && docker compose -p $(NAME) ps
+	$(DOCKER) up --build -d
 
 logs:
-	cd srcs && docker compose -p $(NAME) logs -f
+	$(DOCKER) logs -f
 
-restart: down up
+ps:
+	$(DOCKER) ps -a
 
+clean:
+	$(DOCKER) down --rmi all
 
-re: clean up
+re: clean all
