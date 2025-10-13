@@ -11,6 +11,21 @@ services:
       - 42-inception
     volumes:
       - data_db:/var/lib/mysql
+
+  wordpress:
+    container_name: wordpress
+    build:
+      context: ./requirements/wordpress
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    networks:
+      - 42-inception
+    volumes:
+      - data_wp:/var/www/html
+    depends_on:
+      - mariadb
+
   nginx:
     container_name: nginx
     build:
@@ -20,6 +35,8 @@ services:
       - "443:443"
     networks:
       - 42-inception
+    depends_on:
+      - wordpress
 
 networks:
   42-inception:
@@ -32,4 +49,11 @@ volumes:
     driver_opts:
       type: none
       device: /home/ahamuyel/data/db
+      o: bind
+  data_wp:
+    name: data_wp
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/ahamuyel/data/wp
       o: bind
