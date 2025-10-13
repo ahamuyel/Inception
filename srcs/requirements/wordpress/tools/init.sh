@@ -4,6 +4,9 @@ set -e
 
 WP_DIR=/var/www/html
 
+MYSQL_ROOT_PASSWORD=$(cat /run/secrets/db_root_password)
+MYSQL_PASSWORD=$(cat /run/secrets/db_user_password)
+
 if [ ! -f "$WP_DIR/wp-config.php" ]; then
     echo "⬇️ A Baixar o WordPress..."
     curl -o wordpress.tar.gz https://wordpress.org/latest.tar.gz

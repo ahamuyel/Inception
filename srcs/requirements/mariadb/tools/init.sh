@@ -7,7 +7,10 @@ echo "🚀 Iniciando processo de configuração do MariaDB..."
 mysqld_safe --datadir=/var/lib/mysql &
 echo "⏳ Aguardando o MariaDB iniciar..."
 
-for i in {1..42}; do
+MYSQL_ROOT_PASSWORD=$(cat /run/secrets/db_root_password)
+MYSQL_PASSWORD=$(cat /run/secrets/db_user_password)
+
+for i in {1..30}; do
     if mysqladmin ping -h "localhost" --silent; then
         echo "✅ MariaDB está ativo."
         break
@@ -35,7 +38,7 @@ if [ ! -d "/var/lib/mysql/${MYSQL_DATABASE}" ]; then
 EOSQL
     echo "✅ Banco de dados '${MYSQL_DATABASE}' e usuário '${MYSQL_USER}' configurados com sucesso."
 else
-        echo "📂 Banco '${MYSQL_DATABASE}' já existe — pulando inicialização."
+    echo "📂 Banco '${MYSQL_DATABASE}' já existe — pulando inicialização."
 fi
 
 echo "🧹 Encerrando instância temporária..."

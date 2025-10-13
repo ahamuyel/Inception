@@ -1,27 +1,45 @@
-NAME = inceptoin
+COMPOSE_DIR= srcs
 
+DOCKER_COMPOSE = docker compose -f $(COMPOSE_DIR)/docker-compose.yaml
+
+DB_VOLUME_PATH = cd /home/ahamuyel/data/db
+WP_VOLUME_PATH = cd /home/ahamuyel/data/wp
+
+GREEN = \033[1;32m
+RED = \033[1;31m
+YELLOW = \033[1;33m
+NC = \033[0m
 
 all: up
 
 up:
-	@echo "\033[1;32m[+] Subindo containers...\033[0m"
-	cd srcs && docker compose -p $(NAME) up -d --build
+	@echo "$(GREEN)[+] A subir os containers...$(NC)"
+	$(DOCKER_COMPOSE) up --build -d
 
 down:
-	@echo "\033[1;31m[-] Parando containers...\033[0m"
-	cd srcs && docker compose -p $(NAME) down
-
-clean: down
-	@echo "\033[1;33m[!] Removendo volumes e imagens órfãs...\033[0m"
-	docker system prune -af --volumes
-
-ps:
-	cd srcs && docker compose -p $(NAME) ps
+	@echo "$(RED)[-] A parar os containers...$(NC)"
+	$(DOCKER_COMPOSE) down --rmi all
 
 logs:
-	cd srcs && docker compose -p $(NAME) logs -f
+	@echo "$(YELLOW)[*] Logs em tempo real... Pressione Ctrl+C para sair.$(NC)"
+	$(DOCKER_COMPOSE) logs -f
 
-restart: down up
+ps:
+	$(DOCKER_COMPOSE) ps -a
 
+clean: down
+	@echo "$(RED)[-] Limpando system prune (imagens órfãs, containers, networks)...$(NC)"
+	docker system prune -af --volumes
 
-re: clean up
+volumes:
+	@echo "$(RED)[-] Limpando volumes locais de banco de dados e WordPress...$(NC)"
+	sudo rm -rf $(DB_VOLUME_PATH)/* || true
+	sudo rm -rf $(WP_VOLUME_PATH)/* || true
+
+fclean: clean volumes
+	@echo "$(RED)[-] Removendo todos os containers e imagens...$(NC)"
+	docker rm -f $$(docker ps -aq) 2>/dev/null || true
+	docker rmi -f $$(docker images -aq) 2>/dev/null || true
+	docker volume prune -f
+
+re: down all
