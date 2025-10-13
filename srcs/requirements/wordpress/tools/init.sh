@@ -20,8 +20,7 @@ if [ ! -f "$WP_DIR/wp-config.php" ]; then
     sed -i "s/localhost/mariadb/" $WP_DIR/wp-config.php
 fi
 
-chown www-data:www-data $WP_DIR
+chmod -R 755 $WP_DIR
+chown -R www-data:www-data $WP_DIR
 
 php-fpm8.2 -F
-
-echo "Runnin"

@@ -1,5 +1,6 @@
-services:
+version: '3.8'
 
+services:
   mariadb:
     container_name: mariadb
     build:
@@ -37,6 +38,8 @@ services:
       - 42-inception
     depends_on:
       - wordpress
+    volumes:
+      - data_wp:/var/www/html:ro  # Compartilha volume com WordPress (read-only)
 
 networks:
   42-inception:
