@@ -3,6 +3,7 @@ services:
     container_name: mariadb
     build:
       context: ./requirements/mariadb
+      dockerfile: Dockerfile
     volumes:
       - db_data:/var/lib/mysql
     networks:
@@ -15,6 +16,7 @@ services:
     container_name: wordpress
     build:
       context: ./requirements/wordpress
+      dockerfile: Dockerfile
     depends_on:
       - mariadb
     networks:

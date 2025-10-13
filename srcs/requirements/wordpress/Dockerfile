@@ -1,6 +1,6 @@
 FROM debian:12
 
-RUN apt-get update && apt-get install -y \
+RUN apt update && apt upgrade && apt install -y \
     php8.2 \
     php8.2-fpm \
     php8.2-mysqli \
@@ -12,13 +12,13 @@ RUN apt-get update && apt-get install -y \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
-RUN mkdir -p /var/www/html
+RUN mkdir -p /var/www/html /run/php
 
-COPY conf/www.conf /etc/php/8.2/fpm/pool.d/www.conf
+COPY /conf/www.conf /etc/php/8.2/fpm/pool.d/www.conf
 
-COPY tools/init_wordpress.sh /init_wordpress.sh
-RUN chmod +x /init_wordpress.sh
+COPY /tools/init.sh /init.sh
+RUN chmod +x /init.sh
 
 EXPOSE 9000
 
-CMD ["/init_wordpress.sh"]
+CMD [ "/init.sh" ]
