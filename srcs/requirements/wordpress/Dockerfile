@@ -1,6 +1,6 @@
-FROM debian:12
+FROM debian:bookworm
 
-RUN apt update && apt upgrade && apt install -y \
+RUN apt update && apt install -y \
     php8.2 \
     php8.2-fpm \
     php8.2-mysqli \

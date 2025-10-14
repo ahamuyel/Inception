@@ -23,24 +23,6 @@ if [ ! -f "$WP_DIR/wp-config.php" ]; then
     sed -i "s/localhost/mariadb/" $WP_DIR/wp-config.php
 fi
 
-if [ ! -f "$WP_DIR/wp-config.php" ]; then
-    echo "⬇️ Baixando WordPress..."
-    curl -o /tmp/wordpress.tar.gz https://wordpress.org/latest.tar.gz
-    tar -xzf /tmp/wordpress.tar.gz -C /tmp
-    cp -r /tmp/wordpress/* "$WP_DIR"
-    rm -rf /tmp/wordpress /tmp/wordpress.tar.gz
-
-    echo "⚙️ Configurando wp-config.php..."
-    wp config create \
-        --allow-root \
-        --path="$WP_DIR" \
-        --dbname="$DB_NAME" \
-        --dbuser="$DB_USER" \
-        --dbpass="$DB_PASSWORD" \
-        --dbhost="mariadb:3306" \
-        --skip-check
-fi
-
 if ! wp core is-installed --allow-root --path="$WP_DIR"; then
     echo "🚀 Instalando WordPress..."
     wp core install \

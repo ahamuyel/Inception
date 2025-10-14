@@ -1,9 +1,9 @@
 COMPOSE_DIR= srcs
 
-DOCKER_COMPOSE = docker compose -f $(COMPOSE_DIR)/docker-compose.yaml
+DOCKER_COMPOSE = docker compose -f $(COMPOSE_DIR)/docker-compose.yml
 
-DB_VOLUME_PATH = cd /home/ahamuyel/data/db
-WP_VOLUME_PATH = cd /home/ahamuyel/data/wp
+DB_VOLUME_PATH = /home/ahamuyel/data/db
+WP_VOLUME_PATH = /home/ahamuyel/data/wp
 
 GREEN = \033[1;32m
 RED = \033[1;31m
@@ -30,6 +30,7 @@ ps:
 clean: down
 	@echo "$(RED)[-] Limpando system prune (imagens órfãs, containers, networks)...$(NC)"
 	docker system prune -af --volumes
+	docker builder prune -f
 
 volumes:
 	@echo "$(RED)[-] Limpando volumes locais de banco de dados e WordPress...$(NC)"

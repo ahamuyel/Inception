@@ -1,6 +1,6 @@
-FROM debian:12
+FROM debian:bookworm
 
-RUN apt update && apt upgrade && apt install -y nginx openssl netcat-traditional \
+RUN apt update && apt install -y nginx openssl netcat-traditional \
    && rm -rf /var/lib/apt/lists/*
 
 COPY tools/entrypoint.sh /entrypoint.sh

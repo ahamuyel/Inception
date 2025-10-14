@@ -1,4 +1,4 @@
-FROM debian:12
+FROM debian:bookworm
 
 RUN apt update && apt upgrade && apt install -y mariadb-server \
     && rm -rf /var/lib/apt/lists/*

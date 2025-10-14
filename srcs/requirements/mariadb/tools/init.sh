@@ -10,7 +10,7 @@ echo "⏳ Aguardando o MariaDB iniciar..."
 MYSQL_ROOT_PASSWORD=$(cat /run/secrets/db_root_password)
 MYSQL_PASSWORD=$(cat /run/secrets/db_user_password)
 
-for i in {1..30}; do
+for i in {1..42}; do
     if mysqladmin ping -h "localhost" --silent; then
         echo "✅ MariaDB está ativo."
         break
