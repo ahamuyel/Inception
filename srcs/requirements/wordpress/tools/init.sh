@@ -23,8 +23,6 @@ if [ ! -f "$WP_DIR/wp-config.php" ]; then
     sed -i "s/localhost/mariadb/" $WP_DIR/wp-config.php
 fi
 
-
-# Instalar WordPress se ainda não existir
 if [ ! -f "$WP_DIR/wp-config.php" ]; then
     echo "⬇️ Baixando WordPress..."
     curl -o /tmp/wordpress.tar.gz https://wordpress.org/latest.tar.gz
@@ -43,7 +41,6 @@ if [ ! -f "$WP_DIR/wp-config.php" ]; then
         --skip-check
 fi
 
-# Instalar WordPress automaticamente (caso não esteja instalado)
 if ! wp core is-installed --allow-root --path="$WP_DIR"; then
     echo "🚀 Instalando WordPress..."
     wp core install \
